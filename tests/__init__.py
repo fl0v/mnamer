@@ -27,6 +27,7 @@ DEFAULT_SETTINGS = {
     "no_cache": False,
     "no_guess": False,
     "no_overwrite": False,
+    "replace_with_symlinks": False,
     "no_style": False,
     "recurse": False,
     "replace_after": {"&": "and", ";": ",", "@": "at"},

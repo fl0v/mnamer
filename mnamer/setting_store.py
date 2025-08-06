@@ -144,6 +144,16 @@ class SettingStore:
             help="--no-overwrite: prevent relocation if it would overwrite a file",
         ).as_dict(),
     )
+    replace_with_symlinks: bool = dataclasses.field(
+        default=False,
+        metadata=SettingSpec(
+            action="store_true",
+            dest="replace_with_symlinks",
+            flags=["--replace_with_symlinks", "--replace-with-symlinks", "--linkback"],
+            group=SettingType.PARAMETER,
+            help="--linkback: after moving file to new path create back a simlink",
+        ).as_dict(),
+    )
     no_style: bool = dataclasses.field(
         default=False,
         metadata=SettingSpec(

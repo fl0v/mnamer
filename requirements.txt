@@ -1,0 +1,4 @@
+teletype
+setuptools_scm
+requests_cache
+guessit
