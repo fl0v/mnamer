@@ -246,3 +246,19 @@ class Target:
             move(str(self.source), destination_path)
         except OSError as e:  # pragma: no cover
             raise MnamerException from e
+
+    def relocateAndSymlinkBack(self) -> None:
+        """
+        Performs the action of renaming and/or moving a file and creates
+        a symlink at the original location pointing to the new location.
+        """
+        source_path = Path(self.source).resolve()
+        destination_path = Path(self.destination).resolve()
+        destination_path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            # First move the file
+            move(str(source_path), destination_path)
+            # Then create a symlink at the original location
+            source_path.symlink_to(destination_path)
+        except OSError as e:  # pragma: no cover
+            raise MnamerException from e

@@ -147,8 +147,11 @@ class Cli(Frontend):
             if self.settings.no_overwrite and target.destination.exists():
                 tty.msg("skipping (--no-overwrite)", MessageType.ALERT)
                 continue
-
-            self._rename_and_move_file(target)
+            
+            if self.settings.replace_with_symlinks:
+                self._rename_and_move_file_and_symlink_back(target)
+            else:
+                self._rename_and_move_file(target)
 
     def _announce_file(self, target: Target):
         media_type = target.metadata.to_media_type().value.title()
@@ -181,6 +184,22 @@ class Cli(Frontend):
             return
         try:
             target.relocate()
+        except MnamerException:
+            tty.msg("FAILED!", MessageType.ERROR)
+        else:
+            tty.msg("OK!", MessageType.SUCCESS)
+            self.success_count += 1
+
+    def _rename_and_move_file_and_symlink_back(self, target: Target):
+        tty.msg(
+            f"moving to {target.destination.absolute()} and creating simlink in its place",
+            MessageType.SUCCESS,
+        )
+        if self.settings.test:
+            self.success_count += 1
+            return
+        try:
+            target.relocateAndSymlinkBack()
         except MnamerException:
             tty.msg("FAILED!", MessageType.ERROR)
         else:
