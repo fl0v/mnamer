@@ -9,6 +9,7 @@ __pycache__/
 .vimrc
 .vs
 .vscode
+.vscode/
 *.egg-info/
 *.json
 *.log
