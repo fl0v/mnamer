@@ -103,9 +103,17 @@ class Target:
             dir_head = Path(dir_head_)
         else:
             dir_head = self.source.parent
-        file_path = format(self.metadata, self._settings.formatting_for(self.metadata))
+        tpl = self._settings.formatting_for(self.metadata)
+        
+        file_path = format(self.metadata, tpl)
         dir_tail, filename = path.split(Path(file_path))
         filename = filename_replace(filename, self._settings.replace_after)
+        print(f"DEBUG tpl: {tpl}")
+        print(f"DEBUG metadata: {self.metadata.as_dict()}")
+        print(f"DEBUG original_filename: {self.metadata.original_filename}")
+        print(f"DEBUG file_path: {file_path}")
+        print(f"DEBUG filename: {filename}")
+        
         if self._settings.scene:
             filename = str_scenify(filename)
         if self._settings.lower:
@@ -116,12 +124,12 @@ class Target:
 
     def _parse(self, file_path: Path):
         path_data: dict[str, Any] = {"language": self._settings.language}
-        if is_subtitle(self.source):
-            try:
-                path_data["language"] = Language.parse(self.source.stem[-2:])
-                file_path = Path(self.source.parent, self.source.stem[:-2])
-            except MnamerException:
-                pass
+        # if is_subtitle(self.source):
+        #     try:
+        #         path_data["language"] = Language.parse(self.source.stem[-2:])
+        #         file_path = Path(self.source.parent, self.source.stem[:-2])
+        #     except MnamerException:
+        #         pass
         options = {"type": self._settings.media, "language": path_data["language"]}
         raw_data = dict(guessit(str(file_path), options))
         if isinstance(raw_data.get("season"), list):
@@ -148,6 +156,7 @@ class Target:
             None: Metadata,
         }[media_type]
         self.metadata = meta_cls()
+        self.metadata.original_filename = file_path.name
         self.metadata.quality = (
             " ".join(
                 path_data[key]

@@ -39,6 +39,7 @@ class _MetaFormatter(Formatter):
 class Metadata:
     """A dataclass which transforms and stores media metadata information."""
 
+    original_filename: str | None = None
     container: str | None = None
     group: str | None = None
     language: Language | None = None

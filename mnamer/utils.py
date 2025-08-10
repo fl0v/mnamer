@@ -312,12 +312,13 @@ def str_replace_slashes(s: str) -> str:
 def str_sanitize(filename: str) -> str:
     """Removes illegal filename characters and condenses whitespace."""
     base, container = splitext(filename)
-    if is_subtitle(container):
-        base = base.rstrip(".")
-        base, container_prefix = splitext(base)
-        container = container_prefix + container
+    # if is_subtitle(container):
+    #     base = base.rstrip(".")
+    #     base, container_prefix = splitext(base)
+    #     container = container_prefix + container
     base = re.sub(r"\s+", " ", base)
     drive, tail = splitdrive(base)
+    tail = str_replace(tail, {"&": "and"})
     tail = re.sub(r'[<>:"|?*&%=+@#`^]', "", tail)
     return drive + tail.strip("-., ") + container
 
