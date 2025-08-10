@@ -108,11 +108,10 @@ class Target:
         file_path = format(self.metadata, tpl)
         dir_tail, filename = path.split(Path(file_path))
         filename = filename_replace(filename, self._settings.replace_after)
-        print(f"DEBUG tpl: {tpl}")
-        print(f"DEBUG metadata: {self.metadata.as_dict()}")
-        print(f"DEBUG original_filename: {self.metadata.original_filename}")
-        print(f"DEBUG file_path: {file_path}")
-        print(f"DEBUG filename: {filename}")
+        # print(f"DEBUG metadata: {self.metadata.as_dict()}")
+        # print(f"DEBUG tpl: {tpl}")
+        # print(f"DEBUG file_path: {file_path}")
+        # print(f"DEBUG filename: {filename}")
         
         if self._settings.scene:
             filename = str_scenify(filename)
@@ -173,7 +172,8 @@ class Target:
             )
             or None
         )
-        self.metadata.language = path_data.get("language")
+        # print(f"DEBUG: language: {path_data.get('language')}")
+        self.metadata.language = self._settings.language or path_data.get("language")
         self.metadata.group = path_data.get("release_group")
         self.metadata.container = file_path.suffix or None
         if not self.metadata.language:
