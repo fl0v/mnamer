@@ -24,3 +24,4 @@ mnamer/__version__.py
 playground.py
 testing/test_files_*
 venv*
+.vscode/
