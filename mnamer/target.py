@@ -260,14 +260,15 @@ class Target:
         """
         Performs the action of renaming and/or moving a file and creates
         a symlink at the original location pointing to the new location.
+        Maintains symlinks in paths without resolving to real paths.
         """
         source_path = Path(self.source).resolve()
-        destination_path = Path(self.destination).resolve()
+        destination_path = Path(self.destination)  # Don't resolve to path from input
         destination_path.parent.mkdir(parents=True, exist_ok=True)
         try:
             # First move the file
             move(str(source_path), destination_path)
-            # Then create a symlink at the original location
+            # Then create a symlink at the original location using the input path
             source_path.symlink_to(destination_path)
         except OSError as e:  # pragma: no cover
             raise MnamerException from e

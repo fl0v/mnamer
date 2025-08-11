@@ -376,7 +376,7 @@ class SettingStore:
 
     @staticmethod
     def _resolve_path(path: str | Path) -> Path:
-        return Path(path).resolve()
+        return Path(path) #.resolve() dont resolve path i want to use the one from input
 
     def __setattr__(self, key: str, value: Any):
         converter_map: dict[str, Callable] = {
