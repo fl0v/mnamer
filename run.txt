@@ -1,0 +1,7 @@
+
+uv run mnamer -v --language=en --linkback \
+    --movie-directory="/mnt/One/Media/Movies.Collections/Some Movie Collection (1947-1989)/{name} ({year})/" \
+    --movie-format="{original_filename}" \
+    "/mnt/One/Media/Movies.Collections/Some Movie collection/" \
+    --test
+

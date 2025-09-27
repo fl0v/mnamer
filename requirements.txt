@@ -1,6 +1,0 @@
-teletype
-setuptools_scm
-requests_cache
-requests
-guessit
-uv
